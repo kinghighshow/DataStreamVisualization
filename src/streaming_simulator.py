@@ -2,6 +2,7 @@ import time
 import pandas as pd
 
 from src.database_service import insert_record
+from src.dashboard import update_dashboard
 
 
 class StreamingSimulator:
@@ -37,7 +38,8 @@ class StreamingSimulator:
 
     def send_to_dashboard(self, data_point):
 
-        print("Dashboard: record received")
+        update_dashboard(data_point)
+
 
     def start_stream(self):
 
