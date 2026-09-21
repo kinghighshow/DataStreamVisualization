@@ -2,7 +2,6 @@ import time
 import pandas as pd
 
 from src.database_service import insert_record
-from src.dashboard import update_dashboard
 
 
 class StreamingSimulator:
@@ -36,16 +35,9 @@ class StreamingSimulator:
             data_point["Time"]
         )
 
-    def send_to_dashboard(self, data_point):
-
-        update_dashboard(data_point)
-
-
-    def start_stream(self):
+    def start_stream(self, dashboard):
 
         print("Starting robot data stream...")
-
-        record_number = 0
 
         while True:
 
@@ -54,16 +46,11 @@ class StreamingSimulator:
             if data_point is None:
                 break
 
-            record_number += 1
-
-            print(f"Sending record {record_number}")
-            print(data_point)
-
             self.send_to_database(data_point)
-            self.send_to_dashboard(data_point)
+
+            dashboard.show_live_dashboard()
 
             if self.current_index < len(self.data):
                 time.sleep(2)
 
-        print("End of dataset")
-        print("Streaming stopped")
+        print("Streaming stopped.")
